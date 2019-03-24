@@ -1,8 +1,33 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:flutter_weather/widgets/Weather.dart';
+import 'package:flutter_weather/widgets/WeatherItem.dart';
+import 'package:flutter_weather/models/WeatherData.dart';
+import 'package:flutter_weather/models/ForecastData.dart';
 
 void main() => runApp(new MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState(){
+    return new MyAppState();
+  }
+}
+
+class MyAppState extends State<MyApp> {
+  bool isLoading = false;
+  WeatherData weatherData;
+  ForecastData forecastData;
+
+  @override
+  void initState() {
+    super.initState();
+
+    loadWeather();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,34 +42,84 @@ class MyApp extends StatelessWidget {
           ),
           body: Center(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: <Widget>[
-                        Text('New York', style: new TextStyle(color: Colors.white)),
-                        Text('Sunny', style: new TextStyle(color: Colors.white, fontSize: 32.0)),
-                        Text('72°F',  style: new TextStyle(color: Colors.white)),
-                        Image.network('https://openweathermap.org/img/w/01d.png'),
-                        Text('Jun 28, 2018', style: new TextStyle(color: Colors.white)),
-                        Text('18:30', style: new TextStyle(color: Colors.white)),
-                      ],
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: weatherData != null ? Weather(
+                                weather: weatherData) : Container(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: isLoading ? CircularProgressIndicator(
+                              strokeWidth: 2.0,
+                              valueColor: new AlwaysStoppedAnimation(
+                                  Colors.white),
+                            ) : IconButton(
+                              icon: new Icon(Icons.refresh),
+                              tooltip: 'Refresh',
+                              onPressed: loadWeather,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                      icon : new Icon(Icons.refresh),
-                      tooltip: 'Refresh',
-                      onPressed: () => null,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
+                    SafeArea(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          height: 200.0,
+                          child: forecastData != null ? ListView.builder(
+                              itemCount: forecastData.list.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) =>
+                                  WeatherItem(
+                                      weather: forecastData.list.elementAt(
+                                          index))
+                          ) : Container(),
+                        ),
+                      ),
+                    )
+                  ]
               )
           )
       ),
     );
+  }
+
+  loadWeather() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final lat = 40.730610;
+    final lon = -73.935242;
+    final weatherResponse = await http.get(
+        'https://api.openweathermap.org/data/2.5/weather?APPID=9d85f4c068fa545cb544eb01d554f9c3&lat=${lat
+            .toString()}&lon=${lon.toString()}');
+    final forecastResponse = await http.get(
+        'https://api.openweathermap.org/data/2.5/forecast?APPID=9d85f4c068fa545cb544eb01d554f9c3&lat=${lat
+            .toString()}&lon=${lon.toString()}');
+
+    if (weatherResponse.statusCode == 200 &&
+        forecastResponse.statusCode == 200) {
+      return setState(() {
+        weatherData =
+        new WeatherData.fromJson(jsonDecode(weatherResponse.body));
+        forecastData =
+        new ForecastData.fromJson(jsonDecode(forecastResponse.body));
+        isLoading = false;
+      });
+    }
+
+
+    setState(() {
+      isLoading = false;
+    });
   }
 }
