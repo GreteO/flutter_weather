@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:location/location.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_weather/widgets/Weather.dart';
 import 'package:flutter_weather/widgets/WeatherItem.dart';
@@ -20,6 +22,8 @@ class MyAppState extends State<MyApp> {
   bool isLoading = false;
   WeatherData weatherData;
   ForecastData forecastData;
+  Location _location = new Location();
+  String error;
 
   @override
   void initState() {
@@ -97,24 +101,44 @@ class MyAppState extends State<MyApp> {
       isLoading = true;
     });
 
-    final lat = 40.730610;
-    final lon = -73.935242;
-    final weatherResponse = await http.get(
-        'https://api.openweathermap.org/data/2.5/weather?APPID=9d85f4c068fa545cb544eb01d554f9c3&lat=${lat
-            .toString()}&lon=${lon.toString()}');
-    final forecastResponse = await http.get(
-        'https://api.openweathermap.org/data/2.5/forecast?APPID=9d85f4c068fa545cb544eb01d554f9c3&lat=${lat
-            .toString()}&lon=${lon.toString()}');
+    Map<String, double> location;
 
-    if (weatherResponse.statusCode == 200 &&
-        forecastResponse.statusCode == 200) {
-      return setState(() {
-        weatherData =
-        new WeatherData.fromJson(jsonDecode(weatherResponse.body));
-        forecastData =
-        new ForecastData.fromJson(jsonDecode(forecastResponse.body));
-        isLoading = false;
-      });
+    try {
+      location = await _location.getLocation();
+      print(location);
+
+      error = null;
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        error = 'Permission denied';
+      } else if (e.code == 'PERMISSION_DENIED_NEVER_ASK') {
+        error = 'Permission denied - please ask the user ro enable it from the app settings';
+      }
+
+      location = null;
+    }
+
+    if (location != null) {
+      final lat = location['latitude'];
+      final lon = location['longitude'];
+
+      final weatherResponse = await http.get(
+          'https://api.openweathermap.org/data/2.5/weather?APPID=9d85f4c068fa545cb544eb01d554f9c3&lat=${lat
+              .toString()}&lon=${lon.toString()}');
+      final forecastResponse = await http.get(
+          'https://api.openweathermap.org/data/2.5/forecast?APPID=9d85f4c068fa545cb544eb01d554f9c3&lat=${lat
+              .toString()}&lon=${lon.toString()}');
+
+      if (weatherResponse.statusCode == 200 &&
+          forecastResponse.statusCode == 200) {
+        return setState(() {
+          weatherData =
+          new WeatherData.fromJson(jsonDecode(weatherResponse.body));
+          forecastData =
+          new ForecastData.fromJson(jsonDecode(forecastResponse.body));
+          isLoading = false;
+        });
+      }
     }
 
 
