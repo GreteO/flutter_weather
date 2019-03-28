@@ -8,23 +8,47 @@ class WeatherItem extends StatelessWidget {
 
   WeatherItem({Key key, @required this.weather}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.teal[900],
+      shape:
+      new RoundedRectangleBorder(
+        side: new BorderSide(color: Colors.teal[900]),
+        borderRadius: BorderRadius.circular(15.0)
+      ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: new Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            Text(weather.name, style: new TextStyle(color: Colors.black)),
-            Text(weather.main, style: new TextStyle(color: Colors.black, fontSize: 24.0)),
-            Text('${weather.temp.toString()}°F',  style: new TextStyle(color: Colors.black)),
-            Image.network('https://openweathermap.org/img/w/${weather.icon}.png'),
-            Text(new DateFormat.yMMMd().format(weather.date), style: new TextStyle(color: Colors.black)),
-            Text(new DateFormat.Hm().format(weather.date), style: new TextStyle(color: Colors.black)),
+            new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Text(weather.name, style: new TextStyle(color: Colors.teal[50])),
+                new Text(new DateFormat('dd MMM yyyy').format(weather.date), style: new TextStyle(color: Colors.teal[50], fontWeight: FontWeight.bold)),
+                new Text(new DateFormat.Hm().format(weather.date), style: new TextStyle(color: Colors.teal[50])),
+              ],
+            ),
+             new Column(
+               mainAxisAlignment: MainAxisAlignment.center,
+               children: <Widget>[
+                 new Image.network('https://openweathermap.org/img/w/${weather.icon}.png'),
+               ],
+             ),
+            new Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                new Text(weather.main, style: new TextStyle(color: Colors.teal[50], fontSize: 24.0)),
+                new Text('${weather.temp.toString()}°C',  style: new TextStyle(color: Colors.teal[50], fontWeight: FontWeight.bold)),
+              ],
+            ),
+
+
           ],
+
         ),
+
       ),
     );
   }
