@@ -7,7 +7,7 @@ Tegemist on ilma äpiga, mis näitab asukohapõhiselt hetke ilma ning annab jär
 ## Juhend:
 https://dragosholban.com/2018/07/01/how-to-build-a-simple-weather-app-in-flutter/
 
-#### Arvamus juhendist
+#### Arvamus juhendist:
 Projektis kasutatud juhend oli arusaadavalt ja üsna põhjalikult kirjutatud.
 Juhend alustas täiesti nullist ning seletas lahti, kuidas flutter toimib. Iga koodijupi juures oli seletus,
 mida sellega tehakse ning põhjalikumaks lugemiseks viited flutteri enda õpetustele.
@@ -15,10 +15,10 @@ mida sellega tehakse ning põhjalikumaks lugemiseks viited flutteri enda õpetus
 Midagi negatiivset ei oska juhendi juures välja tuua, kuna esimese flutteri äpi tegemiseks,
 olemata seda eelnevalt kasutanud oli kogu vajalik info olemas.
 
-##SDK versiooni muutused
+## SDK versiooni muutused:
 Ei pidanud otseselt midagi muutma.
 
-##Juhendi muutused
+## Juhendi muutused:
 Lisasin juurde võimaluse kasutajal otsida ilmateadet soovitud linna kohta maailmas.
 Otsimiseks navigeeritakse kasutaja teisele lehele. Peale otsingut kuvatakse linna hetke ilm ja 5 päeva prognoos.
 Lisaks muutsin äpi välimust.
