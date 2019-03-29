@@ -11,10 +11,10 @@ class _CitySelectionState extends State<CitySelection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal[50],
+      backgroundColor: Colors.deepOrange[50],
       appBar: AppBar(
-        title: Text('Search city'),
-        backgroundColor: Colors.teal[900],
+        title: Text('Search city',style: new TextStyle(color: Colors.black)),
+        backgroundColor: Colors.deepOrange[50],
       ),
       body: Form(
         child: Row(

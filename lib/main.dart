@@ -39,13 +39,11 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
         title: 'Flutter Weather App',
         theme: ThemeData(
-          primaryColor: Colors.teal[900],
+          primaryColor: Colors.deepOrange[50],
         ),
 
         home: Scaffold(
-          backgroundColor: Colors.teal[50],
-
-         // backgroundColor: Image.asset('background.jpg').color,
+          backgroundColor: Colors.deepOrange[50],
           appBar: AppBar(
             title: Text('Flutter Weather App'),
             actions: <Widget>[
@@ -88,7 +86,15 @@ class MyAppState extends State<MyApp> {
             ],
           ),
 
-            body: Center(
+            body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/background.jpg"),
+                    fit: BoxFit.cover,
+                    colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.9), BlendMode.dstATop)
+                ),
+              ),
+              child: Center(
               child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -106,12 +112,12 @@ class MyAppState extends State<MyApp> {
                             child: isLoading ? CircularProgressIndicator(
                               strokeWidth: 2.0,
                               valueColor: new AlwaysStoppedAnimation(
-                                  Colors.teal[900]),
+                                  Colors.deepOrange[100]),
                             ) : IconButton(
                               icon: new Icon(Icons.refresh),
                               tooltip: 'Refresh',
                               onPressed: loadWeather,
-                              color: Colors.teal[900],
+                              color: Colors.deepOrange[100],
                             ),
                           ),
                         ],
@@ -136,6 +142,7 @@ class MyAppState extends State<MyApp> {
                   ]
               )
           )
+            )
       )
     );
   }

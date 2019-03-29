@@ -11,10 +11,10 @@ class WeatherItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.teal[900],
+      color: Colors.deepOrange[100].withOpacity(0.2),
       shape:
       new RoundedRectangleBorder(
-        side: new BorderSide(color: Colors.teal[900]),
+        side: new BorderSide(color: Colors.deepOrange[100]),
         borderRadius: BorderRadius.circular(15.0)
       ),
       child: Padding(
@@ -25,9 +25,9 @@ class WeatherItem extends StatelessWidget {
             new Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new Text(weather.name, style: new TextStyle(color: Colors.teal[50])),
-                new Text(new DateFormat('dd MMM yyyy').format(weather.date), style: new TextStyle(color: Colors.teal[50], fontWeight: FontWeight.bold)),
-                new Text(new DateFormat.Hm().format(weather.date), style: new TextStyle(color: Colors.teal[50])),
+                new Text(weather.name, style: new TextStyle(color: Colors.deepOrange[50])),
+                new Text(new DateFormat('dd MMM yyyy').format(weather.date), style: new TextStyle(color: Colors.deepOrange[50], fontWeight: FontWeight.bold)),
+                new Text(new DateFormat.Hm().format(weather.date), style: new TextStyle(color: Colors.deepOrange[50])),
               ],
             ),
              new Column(
@@ -39,8 +39,8 @@ class WeatherItem extends StatelessWidget {
             new Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                new Text(weather.main, style: new TextStyle(color: Colors.teal[50], fontSize: 24.0)),
-                new Text('${weather.temp.toString()}°C',  style: new TextStyle(color: Colors.teal[50], fontWeight: FontWeight.bold)),
+                new Text(weather.main, style: new TextStyle(color: Colors.deepOrange[50], fontSize: 24.0)),
+                new Text('${weather.temp.toString()}°C',  style: new TextStyle(color: Colors.deepOrange[50], fontWeight: FontWeight.bold)),
               ],
             ),
 
