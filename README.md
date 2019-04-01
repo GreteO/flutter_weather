@@ -4,6 +4,10 @@ Tegemist on ilma äpiga, mis näitab asukohapõhiselt hetke ilma ning annab jär
 Äpi kasutamiseks peab telefonis olema sisse lülitatud asukoha määraja.
 Äpp kasutab ilmateate saamiseks https://openweathermap.org API-t.
 
+![Kohalik](screenshots/local.png)
+![Otsing](screenshots/searchcity.png)
+![Navigeerimine](screenshots/navigate.png)
+
 ## Juhend:
 https://dragosholban.com/2018/07/01/how-to-build-a-simple-weather-app-in-flutter/
 
